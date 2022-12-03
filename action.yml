@@ -1,50 +1,32 @@
-name: 'Notion translator'
-description: 'A github action that translates fields in a notion database'
+name: 'Notion mapper'
+description: 'A github action that translates fields in a notion database to a relation'
 branding:
   icon: globe
   color: blue
 inputs:
   notion_token:
     description: 'Notion API token'
-    required: true
-  translation_engine:
-    description: 'Engine to use for translation (see: https://www.npmjs.com/package/translate)'
-    required: true    
-    default: 'google'
-  translation_key:
-    description: 'Key to use for translation if required (see: https://www.npmjs.com/package/translate)'
-    required: false    
-  translation_url:
-    description: 'Url to use for translation if required (see: https://www.npmjs.com/package/translate)'
-    required: false        
+    required: true  
   database:
-    description: 'Parent database to translate'
+    description: 'Parent database to map columns in'
     required: true
-  default_language_from:
-    description: 'Language to assume to translate from if not provided in a column'
-    required: true
-    default: 'nl'
-  default_language_to:
-    description: 'Language to translate to'
-    required: true
-    default: 'en'
-  field_to_translate:
-    description: 'Database field name to translate'
+  field_to_map_from:
+    description: 'Database field map value from'
     required: true
     default: 'Input'
-  field_to_translate_status:
-    description: 'Database field name to maintain translation status'
+  field_to_map_to:
+    description: 'Database field map value to (*must* be a relation to lookup database)'
     required: true
     default: 'Status'
-  field_to_translate_result:
-    description: 'Database field name to add the translated result'
+  database_lookup:
+    description: 'Database to use as the lookup table (*must be a relation to the `map_to` field!)'
     required: true
     default: 'Result'
-  field_to_translate_language:
-    description: 'Database field name for input language of text'    
+  database_lookup_field:
+    description: 'Database field name to use for the lookup (the `map_from` equivalent field above)'    
 outputs:
   status: 
-    description: 'The status of the translation'
+    description: 'The status of the mapping'
 runs:
   using: 'node16'
   main: 'dist/index.js'
